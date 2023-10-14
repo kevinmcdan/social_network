@@ -33,8 +33,10 @@
     <div class="block">
         <form method="post">
             {% csrf_token %}
-            <textarea class="textarea" name="body" placeholder="Maximum 140 characters"></textarea>
-            <button class="button is-success is-fullwidth" name="submit" value="submit">Submit</button>
+            {{ form.as_p }}
+            <button class="button is-success is-fullwidth is-medium mt-5"
+                    type="submit">Dweet
+            </button>
         </form>
     </div>
 </div>
