@@ -1,0 +1,42 @@
+<!-- dwitter/templates/dwitter/dashboard.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="column is-two-thirds">
+    {% for followed in user.profile.follows.all %}
+        {% for dweet in followed.user.dweets.all %}
+        <div class="box" style="word-wrap: anywhere;">
+            <strong><a href="{% url 'dwitter:profile' followed.id %}">{{dweet.user.username}}</a></strong>
+            <p> {{ dweet.body }}</p>
+            <p class="is-small has-text-grey-light"({{ dweet.created_at }})></p>
+        </div>
+        {% endfor %}
+    {% endfor %}
+</div>
+
+<div class="column is-one-third">
+    <div class="block">
+        <a href="{% url 'dwitter:profile_list' %}">
+            <button class="button is-medium is-fullwidth">All Profiles</button>
+        </a>
+    </div>
+    <div class="block">
+        <a href="{% url 'dwitter:profile' user.profile.id %}">
+            <button class="button is-medium is-fullwidth">My Profile</button>
+        </a>
+    </div>
+    <div class="block">
+        <h1 class="title is-1">Add a Dweet</h1>
+    </div>
+    <div class="block">
+        <form method="post">
+            {% csrf_token %}
+            <textarea class="textarea" name="body" placeholder="Maximum 140 characters"></textarea>
+            <button class="button is-success is-fullwidth" name="submit" value="submit">Submit</button>
+        </form>
+    </div>
+</div>
+
+{% endblock content %}
