@@ -43,11 +43,18 @@
                 This app is based on a tutorial from <a href="https://realpython.com/django-social-network-1/">RealPython.com</a>.
             </div>
             <div class="column is-one-fifth">
-                <a href="{% url 'users:logout' %}">
-                    <button class="button is-danger is-fullwidth is-medium mt-5">
-                        Logout
-                    </button>
-                </a>
+                <div class="block">
+                    <a href="{% url 'users:logout' %}">
+                        <button class="button is-danger is-fullwidth is-medium mt-5">
+                            Logout
+                        </button>
+                    </a>
+                </div>
+                <div class="block">
+                    <a href="{% url 'users:password_change' %}">
+                        <button class="button is-medium is-fullwidth">Change your password</button>
+                    </a>
+                </div>
             </div>
         </div>
     </footer>

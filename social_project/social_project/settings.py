@@ -129,3 +129,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = "dwitter:dashboard"
 
 LOGOUT_REDIRECT_URL = "users:login"
+
+EMAIL_HOST = "localhost"
+EMAIL_PORT = 1025

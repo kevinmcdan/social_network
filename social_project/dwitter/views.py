@@ -6,16 +6,19 @@ from operator import attrgetter
 # Create your views here.
 
 def dashboard(request):
-    form = DweetForm(request.POST or None)
-    if request.method == "POST":
-        if form.is_valid():
-            dweet = form.save(commit=False)
-            dweet.user = request.user
-            dweet.save()
-            return redirect("dwitter:dashboard")
-    followed_dweets = Dweet.objects.filter(user__profile__in=request.user.profile.follows.all()).order_by("-created_at")
-    # print(followed_dweets.query) # uncomment when debugging
-    return render(request, "dwitter/dashboard.html", {"form": form, "dweets": followed_dweets},)
+    if request.user.is_authenticated:
+        form = DweetForm(request.POST or None)
+        if request.method == "POST":
+            if form.is_valid():
+                dweet = form.save(commit=False)
+                dweet.user = request.user
+                dweet.save()
+                return redirect("dwitter:dashboard")
+        followed_dweets = Dweet.objects.filter(user__profile__in=request.user.profile.follows.all()).order_by("-created_at")
+        # print(followed_dweets.query) # uncomment when debugging
+        return render(request, "dwitter/dashboard.html", {"form": form, "dweets": followed_dweets},)
+    else:
+        return redirect("users:login")
 
 def profile_list(request):
     profiles = Profile.objects.exclude(user=request.user)

@@ -1,4 +1,4 @@
-<!--users/templates/registration/login.html-->
+<!--users/templates/users/login.html-->
 
 {% extends 'base.html' %}
 
@@ -15,9 +15,8 @@
     </button>
 </form>
 
-<div class="block">
-    <a href="{% url 'dwitter:dashboard' %}">
-        <button class="button is-medium is-fullwidth">Already loggin in? Back to dashboard</button>
-    </a>
-</div>
+<a href="{% url 'users:password_reset' %}">
+    <button class="button is-medium is-fullwidth">Reset your password</button>
+</a>
+
 {% endblock %}
