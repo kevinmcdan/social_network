@@ -5,14 +5,12 @@
 {% block content %}
 
 <div class="column is-two-thirds">
-    {% for followed in user.profile.follows.all %}
-        {% for dweet in followed.user.dweets.all %}
-        <div class="box" style="word-wrap: anywhere;">
-            <strong><a href="{% url 'dwitter:profile' followed.id %}">{{dweet.user.username}}</a></strong>
-            <p> {{ dweet.body }}</p>
-            <p class="is-small has-text-grey-light"({{ dweet.created_at }})></p>
-        </div>
-        {% endfor %}
+    {% for dweet in dweets %}
+    <div class="box" style="word-wrap: anywhere;">
+        <strong><a href="{% url 'dwitter:profile' dweet.user.profile.id %}">{{dweet.user.username}}</a></strong>
+        <p> {{ dweet.body }}</p>
+        <p class="is-small has-text-grey-light"({{ dweet.created_at }})></p>
+    </div>
     {% endfor %}
 </div>
 
