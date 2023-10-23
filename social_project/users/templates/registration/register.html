@@ -1,0 +1,21 @@
+<!--users/templates/users/register.html-->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="column is-two-thirds">
+    <h2 class="title is-2">Register</h2>
+
+    <form class="box is-success is-large" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="button is-success is-fullwidth is-medium mt-5" type="submit" value="Register">
+            Register
+        </button>
+    </form>
+
+    <div class="block">
+        <a href="{% url 'users:login' %}"><button class="button is-medium mt-5">Back to login</button></a>
+    </div>
+</div>
+{% endblock %}
