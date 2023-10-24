@@ -20,4 +20,5 @@ urlpatterns = [
     url(r"^", include("dwitter.urls")),
     url(r"^",  include("users.urls")),
     url(r'^admin/', admin.site.urls),
+    url(r"^oauth/", include("social_django.urls", namespace='social'))
 ]

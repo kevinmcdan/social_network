@@ -19,6 +19,10 @@
     <button class="button is-medium is-fullwidth">Create an account</button>
 </a>
 
+<a href="{% url 'social:begin' 'github' %}">
+    <button class="button is-medium is-fullwidth">Login with GitHub</button>
+</a>
+
 <a href="{% url 'users:password_reset' %}">
     <button class="button is-medium is-fullwidth">Reset your password</button>
 </a>
