@@ -21,14 +21,31 @@
         </form>
     </div>
     <div class="content" style="word-wrap: anywhere;">
-        {% for dweet in profile.user.dweets.all %}
-            <div class="box">
-                <p>{{dweet.body}}</p>
-                <p class="is-small has-text-grey-light">
-                    ({{ dweet.created_at }})
-                </p>
-            </div>
-        {% endfor %}
+        <form method="post">
+            {% csrf_token %}
+            
+            {% for dweet in profile.user.dweets.all %}
+                {% if dweet.is_public == True or profile == user.profile or user.is_staff == True %}
+                    <div class="box">
+                        <p>{{dweet.body}}</p>
+                        <p class="is-small has-text-grey-light">
+                            ({{ dweet.created_at }})
+                            
+                                {% if dweet.is_public == True and profile == user.profile or dweet.is_public == True and user.is_staff == True %}
+                                    <button class="button is-small" name="hide" value={{dweet.id}}>Hide</button>
+                                {% endif %}
+                                {% if dweet.is_public == False and profile == user.profile or dweet.is_public == False and user.is_staff == True %}
+                                    <button class="button is-small" name="show" value={{dweet.id}}>Show</button>
+                                {% endif %}
+                                {% if profile == user.profile or user.is_staff == True %}
+                                    <button class="button is-small is-danger" name="delete" value={{dweet.id}}>Delete</button>
+                                {% endif %}
+                        </p>
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+    </form>
     </div>
 </div>
 
@@ -42,7 +59,7 @@
     </div>
 
     <div class="block">
-        <h2 class="title is-2">{{ profile.user.username}} is Following:</h2>
+        <h3 class="title is-3">{{ profile.user.username}} is Following:</h3>
         <div class="content">
             <ul>
             {% if following_excluding_self.count > 0 %}    
@@ -59,7 +76,7 @@
     </div>
 
     <div class="block"> 
-        <h2 class="title is-2">{{ profile.user.username}}'s Followers:</h2>
+        <h3 class="title is-3">{{ profile.user.username}}'s Followers:</h3>
         <div class="content">
             <ul>
             {% if followers_excluding_self.count > 0 %}

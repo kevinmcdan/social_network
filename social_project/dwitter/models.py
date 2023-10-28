@@ -26,7 +26,7 @@ class Dweet(models.Model):
     )
     body = models.CharField(max_length=140)
     created_at = models.DateTimeField(auto_now_add=True)
-    is_public = True
+    is_public = models.BooleanField(default=True)
 
     def __str__(self):
         return (

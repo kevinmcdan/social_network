@@ -34,10 +34,22 @@ def profile(request, pk):
     if request.method == "POST":
         current_user_profile = request.user.profile
         data = request.POST
-        action = data.get("follow")
-        if action == "follow":
+        follow_action = data.get("follow")
+        show_id = data.get("show")
+        hide_id = data.get("hide")
+        delete_id = data.get("delete")
+        if follow_action == "follow":
             current_user_profile.follows.add(profile)
-        elif action == "unfollow":
+        elif follow_action == "unfollow":
             current_user_profile.follows.remove(profile)
+        elif hide_id:
+            dweet_to_hide = Dweet.objects.filter(id=hide_id)
+            dweet_to_hide.update(is_public=False)
+        elif show_id:
+            dweet_to_show = Dweet.objects.filter(id=show_id)
+            dweet_to_show.update(is_public=True)
+        elif delete_id:
+            dweet_to_delete = Dweet.objects.filter(id=delete_id)
+            dweet_to_delete.delete()
         current_user_profile.save()
     return render(request, "dwitter/profile.html", {"profile": profile, "following_excluding_self": profile.follows.exclude(user=profile.user), "followers_excluding_self": profile.followed_by.exclude(user=profile.user)})
