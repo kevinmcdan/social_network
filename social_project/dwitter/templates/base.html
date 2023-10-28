@@ -23,6 +23,15 @@
             <p class="subtitle is-4">
                 Your tiny social network built with Django
             </p>
+            {% if messages %}
+            <ul class="content">
+            {% for message in messages %}
+                <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+                {{ message }}
+                </li>
+            {% endfor %}
+            </ul>
+            {% endif %}
         </div>
     </section>
 
