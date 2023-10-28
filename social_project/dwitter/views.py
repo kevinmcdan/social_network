@@ -2,9 +2,11 @@ from django.shortcuts import render, redirect
 from .forms import DweetForm
 from .models import Dweet, Profile
 from operator import attrgetter
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
+@login_required
 def dashboard(request):
     form = DweetForm(request.POST or None)
     if request.method == "POST":
@@ -17,10 +19,12 @@ def dashboard(request):
     # print(followed_dweets.query) # uncomment when debugging
     return render(request, "dwitter/dashboard.html", {"form": form, "dweets": followed_dweets},)
 
+@login_required
 def profile_list(request):
     profiles = Profile.objects.exclude(user=request.user)
     return render(request, "dwitter/profile_list.html", {"profiles": profiles})
 
+@login_required
 def profile(request, pk):
     if not hasattr(request.user, 'profile'):
         missing_profile = Profile(user=request.user)

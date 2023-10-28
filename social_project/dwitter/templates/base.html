@@ -12,12 +12,26 @@
     <title>Dwitter</title>
 </head>
 <body>
+
     <section class="hero is-small is-success mb-4">
         <div class="hero-body">
-            <h1 class="title is-1"><a href="{% url 'dwitter:dashboard' %}">Dwitter</a></h1>
+            {% if user.is_authenticated %}
+                <h1 class="title is-1"><a href="{% url 'dwitter:dashboard' %}">Dwitter</a></h1>
+            {% else %}
+                <h1 class="title is-1"><a href="{% url 'users:login' %}">Dwitter</a></h1>
+            {% endif %}
             <p class="subtitle is-4">
                 Your tiny social network built with Django
             </p>
+            {% if messages %}
+            <ul class="content">
+            {% for message in messages %}
+                <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+                {{ message }}
+                </li>
+            {% endfor %}
+            </ul>
+            {% endif %}
         </div>
     </section>
 
@@ -30,5 +44,30 @@
 
         </div>
     </div>
+
+    {% if user.is_authenticated %}
+    <footer class="footer">
+        <div class="columns">
+            <div class="column is-four-fifths">
+                This app is based on a tutorial from <a href="https://realpython.com/django-social-network-1/">RealPython.com</a>.
+            </div>
+            <div class="column is-one-fifth">
+                <div class="block">
+                    <a href="{% url 'users:logout' %}">
+                        <button class="button is-danger is-fullwidth is-medium mt-5">
+                            Logout
+                        </button>
+                    </a>
+                </div>
+                <div class="block">
+                    <a href="{% url 'users:password_change' %}">
+                        <button class="button is-medium is-fullwidth">Change your password</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    {% endif %}
+
 </body>
 </html>
