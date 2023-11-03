@@ -1,4 +1,4 @@
-.PHONY: all help translate test clean update compass collect rebuild setup setup-gunicorn setup-nginx run-gunicorn-dev run-gunicorn-prod run-nginx
+.PHONY: all help translate test clean update compass collect rebuild pre-venv-setup setup setup-gunicorn setup-nginx run-gunicorn-dev run-gunicorn-prod run-nginx
 
 SETTINGS={{ project_name }}.settings
 TEST_SETTINGS={{ project_name }}.test_settings
@@ -43,9 +43,18 @@ rebuild: clean update compass collect
  	#django-admin.py loaddata --settings=$(SETTINGS) <your fixtures here>
 
 # setup: runs relevant commands for server setup
-setup:
+pre-venv-setup:
+	sudo apt install python3
+	sudo apt install python-is-python3 
+	sudo apt install python3-distutils
+	sudo apt install python3-pip
+	pip install virtualenv
+
+setup: 	
 	pip install -r requirements.txt
 	alias GET='http --follow --timeout 6'
+	source DJANGO_SECRET_KEY
+	python social_project/manage.py migrate
 
 # makes directories for gunicorn
 setup-gunicorn:
@@ -56,21 +65,21 @@ setup-nginx:
 	sudo apt-get install -y 'nginx=1.18.*'
 	nginx -v
 	sudo cp nginx-sites-available-setting /etc/nginx/sites-available/kevinmcd
+	sudo cp nginx.conf-setting /etc/nginx/nginx.conf
+	sudo ln -s /etc/nginx/sites-available/kevinmcd /etc/nginx/sites-enabled/kevinmcd
+	sudo rm /etc/nginx/sites-enabled/default
+	sudo nginx -t
 	sudo mkdir -pv /var/www/kevinmcd.xyz/static/
 	sudo chown -cR root:root /var/www/kevinmcd.xyz/
 	python social_project/manage.py collectstatic
 
 # runs gunicorn in the development environment
 run-gunicorn-dev:
-	cd /social_network/social_project/
 	gunicorn -c config/gunicorn/dev.py
-	cd -
 
 # runs gunicorn in the production environment
 run-gunicorn-prod:
-	cd /social_network/social_project/
 	gunicorn -c config/gunicorn/prod.py
-	cd -
 
 run-nginx:
 	sudo systemctl start nginx

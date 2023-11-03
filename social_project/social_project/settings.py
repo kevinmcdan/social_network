@@ -28,7 +28,7 @@ except KeyError as e:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [".kevinmcd.xyz"]
+ALLOWED_HOSTS = [".kevinmcd.xyz","localhost"]
 
 
 # Application definition
