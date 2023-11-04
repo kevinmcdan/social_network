@@ -1,7 +1,6 @@
 from django.conf.urls import include, url
 from django.contrib import admin
 
-app_name = "users"
 from users.views import register, see_request, user_info, add_messages
 
 urlpatterns = [
