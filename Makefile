@@ -51,12 +51,12 @@ pre-venv-setup:
 	sudo apt install python3-distutils
 	sudo apt install python3-pip
 	pip install virtualenv
-	virtualenv -p python3 digitalocean
+	virtualenv -p python3 venv
 
 setup: 	
 	pip install -r requirements.txt
 	alias GET='http --follow --timeout 6'
-	source DJANGO_SECRET_KEY
+	source .DJANGO_SECRET_KEY
 	python social_project/manage.py migrate
 
 https:
