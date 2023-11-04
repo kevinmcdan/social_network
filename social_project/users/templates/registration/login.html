@@ -1,4 +1,4 @@
-<!--users/templates/users/login.html-->
+<!--users/templates/registration/login.html-->
 
 {% extends 'base.html' %}
 
@@ -15,7 +15,7 @@
     </button>
 </form>
 
-<a href="{% url 'users:register' %}">
+<a href="{% url 'register' %}">
     <button class="button is-medium is-fullwidth">Create an account</button>
 </a>
 
@@ -23,7 +23,7 @@
     <button class="button is-medium is-fullwidth">Login with GitHub</button>
 </a>
 
-<a href="{% url 'users:password_reset' %}">
+<a href="{% url 'password_reset' %}">
     <button class="button is-medium is-fullwidth">Reset your password</button>
 </a>
 
