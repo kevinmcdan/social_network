@@ -2,6 +2,7 @@
 
 SETTINGS={{ project_name }}.settings
 TEST_SETTINGS={{ project_name }}.test_settings
+SHELL := /bin/bash
 
 # target: all - Default target. Does nothing.
 all:
@@ -43,18 +44,25 @@ rebuild: clean update compass collect
  	#django-admin.py loaddata --settings=$(SETTINGS) <your fixtures here>
 
 # setup: runs relevant commands for server setup
+# create and start the venv manually yourself after this step.
 pre-venv-setup:
 	sudo apt install python3
 	sudo apt install python-is-python3 
 	sudo apt install python3-distutils
 	sudo apt install python3-pip
 	pip install virtualenv
+	virtualenv -p python3 digitalocean
 
 setup: 	
 	pip install -r requirements.txt
 	alias GET='http --follow --timeout 6'
 	source DJANGO_SECRET_KEY
 	python social_project/manage.py migrate
+
+https:
+	sudo snap install --classic certbot
+	sudo ln -s /snap/bin/certbot /usr/bin/certbot
+	sudo certbot --nginx --rsa-key-size 4096 --no-redirect
 
 # makes directories for gunicorn
 setup-gunicorn:
