@@ -27,7 +27,7 @@ clean:
 
 # target: update - install (and update) pip requirements
 update:
-	pip install -U -r requirements.pip
+	pip install -U -r requirements.txt
 
 # target: compass - compass compile all scss files
 compass:
@@ -43,7 +43,6 @@ rebuild: clean update compass collect
 	django-admin.py syncdb --settings=$(SETTINGS) --noinput
  	#django-admin.py loaddata --settings=$(SETTINGS) <your fixtures here>
 
-# setup: runs relevant commands for server setup
 # create and start the venv manually yourself after this step.
 pre-venv-setup:
 	sudo apt install python3
@@ -53,10 +52,12 @@ pre-venv-setup:
 	pip install virtualenv
 	virtualenv -p python3 venv
 
+# setup: runs relevant commands for server setup
 setup: 	
 	pip install -r requirements.txt
 	alias GET='http --follow --timeout 6'
 	python social_project/manage.py migrate
+	python social_project/manage.py createsuperuser
 
 https:
 	sudo snap install --classic certbot
