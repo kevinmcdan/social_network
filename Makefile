@@ -56,7 +56,6 @@ pre-venv-setup:
 setup: 	
 	pip install -r requirements.txt
 	alias GET='http --follow --timeout 6'
-	source .DJANGO_SECRET_KEY
 	python social_project/manage.py migrate
 
 https:
